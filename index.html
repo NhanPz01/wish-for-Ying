@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Lời chúc anh gửi bé iu">
+    <meta name="keywords" content="Yêu thương, Lời chúc, Bé Ying Chinhiu">
+    <meta name="author" content="Bổ Nhưn aka AnhPz/Anh iu của bé">
+    <title>Hiệu ứng trái tim</title>
+    <style>
+        body {
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: red;
+            opacity: 0.8;
+            transition: all 3s ease-in-out;
+            pointer-events: none;
+            animation: float 5s infinite alternate ease-in-out, blink 1.5s infinite alternate;
+        }
+        @keyframes blink {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-20px); }
+        }
+        .button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: pink;
+            color: white;
+            font-size: 20px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        .wish {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            padding: 4% 0 0 4%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: yellow;
+            border-radius: 50%;
+            opacity: 0;
+            animation: explode 1.5s infinite ease-out;
+        }
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <button class="button" id="mergeButton">Hãy nhấp vào đây</button>
+    <div class="wish" id="wish">
+      <span>💝 Bé Ying Chinhiu 🌷 ơi 🤍</span><br>
+      <span>🥰 Anh đến và ở lại để bé quen thuộc với yêu thương nhá</span><br>
+      <span>Yêu em bé 🫰</span><br>
+      <span>Ký tên: Anh iu của bé 💊🙅‍♂️</span>
+    </div>
+    <script>
+        const mergeButton = document.getElementById("mergeButton");
+        const wish = document.getElementById("wish");
+        let hearts = [];
+        let heartCount = 200;
+        
+        function createFloatingHearts() {
+            for (let i = 0; i < heartCount; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "🤍💝";
+                heart.style.left = Math.random() * window.innerWidth + "px";
+                heart.style.top = Math.random() * window.innerHeight + "px";
+                heart.style.animation = `float ${Math.random() * 3 + 2}s infinite alternate ease-in-out, blink ${Math.random() * 2 + 1}s infinite alternate`;
+                document.body.appendChild(heart);
+                hearts.push(heart);
+            }
+        }
+
+        function moveToHeartShape() {
+            hearts.forEach((heart, index) => {
+                let angle = (index / heartCount) * Math.PI * 2;
+                let x = 350 * Math.pow(Math.sin(angle), 3);
+                let y = -350 * (0.8 * Math.cos(angle) - 0.3 * Math.cos(2 * angle) - 0.2 * Math.cos(3 * angle) - 0.1 * Math.cos(4 * angle));
+                heart.style.left = `calc(50% + ${x}px)`;
+                heart.style.top = `calc(50% + ${y}px)`;
+            });
+            setTimeout(() => {
+                wish.style.opacity = "1";
+                setInterval(createFireworks, 500);
+            }, 2000);
+        }
+
+        function createFireworks() {
+            for (let i = 0; i < 10; i++) {
+                let firework = document.createElement("div");
+                firework.classList.add("firework");
+                firework.style.left = `calc(50% + ${Math.random() * 500 - 250}px)`;
+                firework.style.top = `calc(50% + ${Math.random() * 500 - 250}px)`;
+                firework.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                document.body.appendChild(firework);
+                setTimeout(() => firework.remove(), 1500);
+            }
+        }
+
+        mergeButton.addEventListener("click", () => {
+            mergeButton.style.display = "none";
+            moveToHeartShape();
+        });
+
+        createFloatingHearts();
+    </script>
+</body>
+</html>
